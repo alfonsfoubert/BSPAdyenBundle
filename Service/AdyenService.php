@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+use BSP\AdyenBundle\Event\ChargeEvent;
+
 class AdyenService
 {
 	public $platform;
@@ -334,133 +336,6 @@ class AdyenService
 
 	public function processNotification(array $notification)
 	{
-		$merchantReference = preg_replace('/[^0-9]/Uis', '', $notification['merchantReference']);
-		if($transaction = $this->em->getRepository($this->entities['transaction'])->find($merchantReference))
-		{
-			if($transaction->isProcessed() == false)
-			{
-				$transaction->isProcessed(true);
-				$transaction->setReference($notification['pspReference']);
-
-				if($notification['authResult'] == "AUTHORISED" || $notification['authResult'] == "AUTHORISATION")
-				{
-					switch($transaction->getType())
-					{
-						case "setup":
-							$this->processSetupNotification($notification, $transaction);
-							break;
-
-						case "update":
-							$this->processUpdateNotification($notification, $transaction);
-							break;
-
-						case "recurring":
-							$this->processRecurringNotification($notification, $transaction);
-							break;
-					}
-
-					$this->em->persist($transaction);
-					$this->em->flush();
-				}
-				else
-				{
-					$transaction->log("Failure: " . $notification['authResult']);
-
-					$this->em->persist($transaction);
-					$this->em->flush();
-					
-					return false;
-				}
-			}
-			else
-			{
-				/**
-				 * When this transaction is already processed, just grab the latest contracts
-				 */
-				$this->loadContract($transaction->getAccount());
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	protected function processSetupNotification(array $notification, Transaction $transaction)
-	{
-		$account = $transaction->getAccount();
-
-		$account->hasRecurringSetup(true);
-		$account->isExpired(false);
-		$account->isTrial(false);
-		$this->em->persist($account);
-
-		/**
-		 * There can be 2 different types of setupTransactions:
-		 *   1. 2 cent recurring authorisation
-		 *   2. Charge for the first month
-		 */
-		if($transaction->getAmount() == $this->updateChargeAmount)
-		{
-			/**
-			 * This is just a authorisation to get the recurringContract running
-			 *
-			 * So we are just going to cancel the transaction at Adyen
-			 */
-			if(!$this->cancel($transaction))
-				$transaction->log('Cancel failed');
-		}
-		else
-		{
-			/**
-			 * This is the payment for the first month
-			 */
-			$account->extendPlan();
-
-			/**
-			 * Fire a charge event
-			 */
-            $this->dispatcher->dispatch('adyen.charge', new ChargeEvent($transaction, true));
-		}
-
-		/**
-		 * Load the new contract
-		 */
-		$this->loadContract($account);
-
-		/**
-		 * Log errors
-		 */
-		$transaction->log($this->getError());
-		$this->em->persist($transaction);
-	}
-
-	protected function processUpdateNotification(array $notification, Transaction $transaction)
-	{
-		$account = $transaction->getAccount();
-
-		/**
-		 * Destroy the previous recurring contract
-		 */
-		if(!$this->disable($account, $account->getRecurringReference()))
-			$transaction->log(sprintf('Disable old contract %s failed', $account->getRecurringReference()));
-
-		/**
-		 * Cancel this 2 cent transaction
-		 */
-		if(!$this->cancel($transaction))
-			$transaction->log('Cancel failed');
-
-		/**
-		 * Load the new contract
-		 */
-		$this->loadContract($account);
-
-		/**
-		 * Log errors
-		 */
-		$transaction->log($this->getError());
-		$this->em->persist($transaction);
 	}
 
 	/**

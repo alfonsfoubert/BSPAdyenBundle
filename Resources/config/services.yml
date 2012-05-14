@@ -14,7 +14,7 @@ services:
             - %adyen.payment_methods%
             - { username: %adyen.webservice_username%, password: %adyen.webservice_password% }
         calls:
-            - [setEventDispatcher, [@event_dispatcher]]
+            - [ setEventDispatcher, [@event_dispatcher] ]
             
     adyen.notification:
         class: %adyen.notification.class%

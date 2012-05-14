@@ -3,6 +3,7 @@
 namespace BSP\AdyenBundle\Service;
 
 use BSP\AdyenBundle\Service\AdyenService;
+use BSP\AdyenBundle\Event\NotificationEvent;
 
 class NotificationService
 {
@@ -40,15 +41,24 @@ class NotificationService
 	protected function process( $item )
 	{
 		$output = print_r($item, true) . PHP_EOL;
-
-		$this->adyen->processNotification(array(
-			'merchantReference' => $item->merchantReference,
-			'pspReference'      => $item->pspReference,
-			'paymentMethod'     => $item->paymentMethod,
-			'reason'            => $item->reason,
-			'authResult'        => $item->eventCode ?: $item->authResult
-		));
-
+		/*
+		$notEvent = new NotificationEvent( 
+				$item->'live',
+				$item->'eventCode',
+				$item->'pspReference',
+				$item->'originalReference',
+				$item->'merchantReference',
+				$item->'merchantAccountCode',
+				$item->'eventDate',
+				$item->'success',
+				$item->'paymentMethod',
+				$item->'operations',
+				$item->'reason',
+				$item->'amount',
+				$item );
+		
+		$this->dispatcher->dispatch('adyen.notification', $notEvent);
+		*/
 		file_put_contents($this->logDirectory . '/adyen.log', $output, FILE_APPEND);
 	}
 }
