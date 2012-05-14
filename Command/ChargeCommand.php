@@ -10,6 +10,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Command\Command;
 
+/**
+ * Charges an specified amount to an RECURRING account on Adyen
+ * 
+ * @author Alfons
+ */
 class ChargeCommand extends Command
 {
 	/**
