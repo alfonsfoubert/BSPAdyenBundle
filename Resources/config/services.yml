@@ -1,0 +1,21 @@
+parameters:
+    adyen.service.class: BSP\AdyenBundle\Service\AdyenService
+    adyen.notification.class: BSP\AdyenBundle\Service\NotificationService
+    
+services:
+    adyen.service:
+        class: %adyen.service.class%
+        arguments:
+            - %adyen.platform%
+            - %adyen.merchant_account%
+            - %adyen.skin%
+            - %adyen.shared_secret%
+            - %adyen.currency%
+            - %adyen.payment_methods%
+            - { username: %adyen.webservice_username%, password: %adyen.webservice_password% }
+        calls:
+            - [setEventDispatcher, [@event_dispatcher]]
+            
+    adyen.notification:
+        class: %adyen.notification.class%
+        arguments: [ @adyen.service, %kernel.logs_dir% ]
