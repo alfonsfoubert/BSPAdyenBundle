@@ -71,7 +71,7 @@ class ChargeCommand extends Command
 		if($charge === false)
 			$output->writeln( '<error>'.$adyen->getError().'</error>' );
 		else
-			$output->writeln( 'Done' );
+			$output->writeln( '<comment>OK</comment>' );
 	}
 	
 	/**
