@@ -22,7 +22,7 @@ class NotificationEvent extends Event
 
 	protected function __construct(	$live, $eventCode, $pspReference, $originalReference, 
 									$merchantReference, $merchantAccountCode, $eventDate, 
-									$success, $paymentMethod, $operations, $rawData.
+									$success, $paymentMethod, $operations, $rawData,
 									$reason, $amount )
 	{
 		$this->live = $live;
