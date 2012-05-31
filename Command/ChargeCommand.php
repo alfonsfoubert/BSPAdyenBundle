@@ -71,7 +71,7 @@ class ChargeCommand extends Command
 		if($charge === false)
 			$output->writeln( '<error>'.$adyen->getError().'</error>' );
 		else
-			$output->writeln( '<comment>OK</comment>' );
+			$output->writeln( '<info>OK</info>' );
 	}
 	
 	/**
@@ -128,9 +128,10 @@ class ChargeCommand extends Command
 		}
 	
 		if (!$input->getArgument('currency')) {
+			$default = $this->container->get('adyen.service')->getDefaultCurrency();
 			$currency = $this->getHelper('dialog')->askAndValidate(
 					$output,
-					'Please choose a currency [optional]: ',
+					'Please choose a currency [<comment>'.$default.'</comment>]: ',
 					function($currency)
 					{
 						if (empty($currency)) {

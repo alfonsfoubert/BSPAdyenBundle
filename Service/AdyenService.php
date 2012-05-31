@@ -238,7 +238,6 @@ class AdyenService
 				return false;
 			}
 			$contract = array_shift( $contracts );
-			
 			/**
 			 * Generate the unique transaction ID
 			 */
@@ -253,9 +252,9 @@ class AdyenService
 					'recurring' => array(
 						'contract' => 'RECURRING'
 					),
-					"amount" => array(
-						"value" => $amount,
-						"currency" => $currency
+					'amount' => array(
+						'value' => $amount,
+						'currency' => $currency
 					),
 					'merchantAccount' => $this->merchantAccount,
 					'reference' => $transaction,
@@ -414,5 +413,10 @@ class AdyenService
 			// Return array
 			return $d;
 		}
+	}
+	
+	public function getDefaultCurrency()
+	{
+		return $this->defaultCurrency;
 	}
 }
