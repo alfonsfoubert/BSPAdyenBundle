@@ -28,7 +28,9 @@ class NotificationService
 		if(is_array($request->notification->notificationItems->NotificationRequestItem))
 		{
 			foreach($request->notification->notificationItems->NotificationRequestItem as $item)
+			{
 				$this->process($item);
+			}
 		}
 		else
 		{

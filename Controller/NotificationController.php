@@ -9,9 +9,11 @@ class NotificationController extends Controller
 {
 	public function serverAction()
 	{
+		$platform = $this->container->getParameter('adyen.platform');
+		
 		ini_set("soap.wsdl_cache_enabled", "0");
 	    
-		$server = new \SoapServer(__DIR__.'/../Resources/wsdl/test/Notification.wsdl');
+		$server = new \SoapServer(__DIR__.'/../Resources/wsdl/'.$platform.'/Notification.wsdl');
 		$server->setObject($this->get('adyen.notification'));
 	    
 		$response = new Response();
