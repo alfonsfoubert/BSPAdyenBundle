@@ -333,10 +333,6 @@ class AdyenService
 		}
 	}
 
-	public function processNotification(array $notification)
-	{
-	}
-
 	/**
 	 * @param \Symfony\Component\HttpFoundation\Request $request
 	 * @return bool

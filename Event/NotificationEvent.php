@@ -6,7 +6,6 @@ use Symfony\Component\EventDispatcher\Event;
 
 class NotificationEvent extends Event
 {
-	protected $live;
 	protected $eventCode;
 	protected $pspReference;
 	protected $originalReference;
@@ -19,31 +18,27 @@ class NotificationEvent extends Event
 	protected $reason;
 	protected $amount;
 	protected $rawData;
+	protected $aditionalData;
+	protected $authResult;
 
-	protected function __construct(	$live, $eventCode, $pspReference, $originalReference, 
-									$merchantReference, $merchantAccountCode, $eventDate, 
-									$success, $paymentMethod, $operations, $rawData,
-									$reason, $amount )
+	public function __construct( $item )
 	{
-		$this->live = $live;
-		$this->eventCode = $eventCode;
-		$this->pspReference = $pspReference;
-		$this->originalReference = $originalReference;
-		$this->merchantReference = $merchantReference;
-		$this->merchantAccountCode = $merchantAccountCode;
-		$this->eventDate = $eventDate;
-		$this->success = $success;
-		$this->paymentMethod = $paymentMethod;
-		$this->operations = $operations;
-		$this->reason = $reason;
-		$this->amount = $amount;
-		$this->rawData = $rawData;
+		$this->rawData = $item;
+		$this->eventCode = $item->eventCode;
+		$this->pspReference = $item->pspReference;
+		$this->originalReference = $item->originalReference;
+		$this->merchantReference = $item->merchantReference;
+		$this->merchantAccountCode = $item->merchantAccountCode;
+		$this->eventDate = $item->eventDate;
+		$this->success = $item->success;
+		$this->paymentMethod = $item->paymentMethod;
+		$this->operations = $item->operations;
+		$this->reason = $item->reason;
+		$this->amount = $item->amount;
+		$this->additionalData = $item->additionalData;
+		$this->authResult = $item->eventCode ?: $item->authResult;
 	}
 	
-	public function isLive() {
-		return $this->live;
-	}
-
 	public function getEventCode() {
 		return $this->eventCode;
 	}
@@ -90,5 +85,13 @@ class NotificationEvent extends Event
 
 	public function getAmount() {
 		return $this->amount;
+	}
+
+	public function getAdditionalData() {
+		return $this->additionalData;
+	}
+
+	public function getAuthResult() {
+		return $this->authResult;
 	}
 }

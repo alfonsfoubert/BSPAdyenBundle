@@ -18,4 +18,4 @@ services:
             
     adyen.notification:
         class: %adyen.notification.class%
-        arguments: [ @adyen.service, %kernel.logs_dir% ]
+        arguments: [ @event_dispatcher, %kernel.logs_dir% ]
