@@ -8,7 +8,7 @@ use BSP\AdyenBundle\Event\NotificationEvent;
 class NotificationService
 {
 	/**
-	 * @var @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+	 * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
 	 */
 	protected $dispatcher;
 
@@ -45,7 +45,7 @@ class NotificationService
 		$output = print_r($item, true) . PHP_EOL;
 
 		$notEvent = new NotificationEvent( $item );
-		$this->dispatcher->dispatch('adyen.notification'.strtolower($item->eventCode), $notEvent);
+		$this->dispatcher->dispatch('adyen.notification.'.strtolower($item->eventCode), $notEvent);
 
 		file_put_contents($this->logDirectory . '/adyen.log', $output, FILE_APPEND);
 	}

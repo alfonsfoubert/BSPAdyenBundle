@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use BSP\AdyenBundle\Event\ChargeEvent;
+use BSP\AdyenBundle\Event\SetupEvent;
 
 class AdyenService
 {
@@ -73,6 +74,9 @@ class AdyenService
 
 		$parameters['merchantSig'] = $this->signature($parameters);
 
+		$event = new SetupEvent( $parameters );
+		$this->dispatcher->dispatch( 'adyen.setup', $event );
+		
 		return new RedirectResponse('https://' . $this->platform . '.adyen.com/hpp/select.shtml?' . http_build_query($parameters));
 	}
 
