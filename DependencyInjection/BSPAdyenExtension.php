@@ -7,7 +7,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-
 class BSPAdyenExtension extends Extension
 {
     /**
@@ -20,7 +19,7 @@ class BSPAdyenExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        
+
         $container->setParameter('adyen.platform', $config['platform']);
         $container->setParameter('adyen.skin', $config['skin']);
         $container->setParameter('adyen.merchant_account', $config['merchant_account']);
@@ -30,9 +29,9 @@ class BSPAdyenExtension extends Extension
         $container->setParameter('adyen.webservice_username', $config['webservice_username']);
         $container->setParameter('adyen.webservice_password', $config['webservice_password']);
     }
-    
+
     public function getXsdValidationBasePath()
     {
-    	return __DIR__.'/../Resources/config/';
+        return __DIR__.'/../Resources/config/';
     }
 }
