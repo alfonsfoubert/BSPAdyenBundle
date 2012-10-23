@@ -1,3 +1,3 @@
-adyen_notification:
+bsp_adyen_notification:
     pattern:  /soap/adyen
     defaults: { _controller: BSPAdyenBundle:Notification:server }
