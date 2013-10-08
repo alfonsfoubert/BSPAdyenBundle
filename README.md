@@ -85,11 +85,6 @@ $adyen = $this->get('bsp.adyen.service');
 
 ### Creating a recurring account
 
-Creating an account is a 2 step process:
-
-1. Setup the account
-2. Listen to notification
-
 #### 1. Setup the account
 
 ``` php
@@ -124,9 +119,36 @@ class MyListener
 
 ### Charging money to a recurring amount
 
+#### 1. Charge
+
 ``` php
 $adyen->charge( 'account-unique-name', 'account-email@mailinator.com', '2500', 'EUR' ); // returns true or false
 ```
+
+#### 2. Listen to notification
+
+``` yaml
+# Acme/DemoBundle/Resources/config/services.yml
+
+acme_demo.adyen_listener:
+    class: Acme\DemoBundle\EventListener\MyListener
+    tags:
+        - { name: kernel.event_listener, event: adyen.notification.authorisation, method: onAuthorisation }
+```
+
+``` php
+// File: Acme/DemoBundle/EventListener/MyListener.php
+
+class MyListener
+{
+    public function onAuthorisation( BSP\AdyenBundle\Event\NotificationEvent $event )
+    {
+        // ... do your stuff
+    }
+}
+```
+
+#### Extra
 
 You can also do it by a console command
 
