@@ -21,7 +21,7 @@ Installation is a 3 step process:
         }
     ],
     "require": {
-        "d3r3ck/bsp-adyen-bundle": "v1.0.*"
+        "d3r3ck/bsp-adyen-bundle": "dev-master"
     }
 }
 ```
@@ -93,7 +93,7 @@ Creating an account is a 2 step process:
 #### 1. Setup the account
 
 ``` php
-$adyen->setup( 'account-unique-name', 'account-email@mailinator.com', '100', 'EUR', 'http://localhost/adyen/return' );
+$adyen->setup( 'account-unique-name', 'account-email@mailinator.com', '100', 'EUR', 'http://localhost/myReturnUrl' );
 ```
 
 #### 2. Listen to notification
