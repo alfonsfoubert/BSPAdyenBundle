@@ -102,15 +102,15 @@ $adyen->setup( 'account-unique-name', 'account-email@mailinator.com', '100', 'EU
 # Acme/DemoBundle/Resources/config/services.yml
 
 acme_demo.adyen_listener:
-    class: Acme\DemoBundle\EventListener\MyClass
+    class: Acme\DemoBundle\EventListener\MyListener
     tags:
         - { name: kernel.event_listener, event: bsp.adyen.setup, method: onSetup }
 ```
 
 ``` php
-// File: Acme/DemoBundle/EventListener/MyClass.php
+// File: Acme/DemoBundle/EventListener/MyListener.php
 
-class MyClass
+class MyListener
 {
     public function onSetup( BSP\AdyenBundle\Event\SetupEvent $event )
     {
