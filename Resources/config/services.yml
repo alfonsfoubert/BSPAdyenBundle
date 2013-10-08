@@ -1,21 +1,21 @@
 parameters:
-    adyen.service.class: BSP\AdyenBundle\Service\AdyenService
-    adyen.notification.class: BSP\AdyenBundle\Service\NotificationService
+    bsp.adyen.service.class: BSP\AdyenBundle\Service\AdyenService
+    bsp.adyen.notification.class: BSP\AdyenBundle\Service\NotificationService
 
 services:
-    adyen.service:
-        class: %adyen.service.class%
+    bsp.adyen.service:
+        class: %bsp.adyen.service.class%
         arguments:
-            - %adyen.platform%
-            - %adyen.merchant_account%
-            - %adyen.skin%
-            - %adyen.shared_secret%
-            - %adyen.currency%
-            - %adyen.payment_methods%
-            - { username: %adyen.webservice_username%, password: %adyen.webservice_password% }
+            - %bsp.adyen.platform%
+            - %bsp.adyen.merchant_account%
+            - %bsp.adyen.skin%
+            - %bsp.adyen.shared_secret%
+            - %bsp.adyen.currency%
+            - %bsp.adyen.payment_methods%
+            - { username: %bsp.adyen.webservice_username%, password: %bsp.adyen.webservice_password% }
         calls:
             - [ setEventDispatcher, [@event_dispatcher] ]
 
-    adyen.notification:
-        class: %adyen.notification.class%
+    bsp.adyen.notification:
+        class: %bsp.adyen.notification.class%
         arguments: [ @event_dispatcher, %kernel.logs_dir% ]

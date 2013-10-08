@@ -27,7 +27,7 @@ class ChargeCommand extends Command
 
     protected function configure()
     {
-        $this->setName('adyen:charge');
+        $this->setName('bsp:adyen:charge');
         $this->setDescription('Charges an account');
         $this->setDefinition(array(
             new InputArgument(
@@ -60,7 +60,7 @@ class ChargeCommand extends Command
         $amount   = $input->getArgument('amount');
         $currency = $input->getArgument('currency');
 
-        $adyen    = $this->container->get('adyen.service');
+        $adyen    = $this->container->get('bsp.adyen.service');
 
         $output->writeln("Charging <comment>". $amount . ( $currency? " ".$currency : "" ) . "</comment> to <comment>" . $email . "</comment> account ...");
         $charge = $adyen->charge( $account, $email, $amount, $currency );
@@ -122,7 +122,7 @@ class ChargeCommand extends Command
         }
 
         if (!$input->getArgument('currency')) {
-            $default = $this->container->get('adyen.service')->getDefaultCurrency();
+            $default  = $this->container->get('bsp.adyen.service')->getDefaultCurrency();
             $currency = $this->getHelper('dialog')->askAndValidate(
                     $output,
                     'Please choose a currency [<comment>'.$default.'</comment>]: ',

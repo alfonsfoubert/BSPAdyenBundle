@@ -47,6 +47,8 @@ class AdyenService
     }
 
     /**
+     * This function setups a recurring account
+     *
      * @param $account
      * @param $email
      * @param  $returnUrl
@@ -75,7 +77,7 @@ class AdyenService
         $parameters['merchantSig'] = $this->signature($parameters);
 
         $event = new SetupEvent( $parameters );
-        $this->dispatcher->dispatch( 'adyen.setup', $event );
+        $this->dispatcher->dispatch( 'bsp.adyen.setup', $event );
 
         return new RedirectResponse('https://' . $this->platform . '.adyen.com/hpp/select.shtml?' . http_build_query($parameters));
     }
@@ -268,7 +270,7 @@ class AdyenService
                 $currency,
                 $result->paymentResult->resultCode == 'Authorised'
             );
-            $this->dispatcher->dispatch('adyen.charge', $chargeEvent);
+            $this->dispatcher->dispatch('bsp.adyen.charge', $chargeEvent);
 
             return true;
         } catch (\SoapFault $exception) {

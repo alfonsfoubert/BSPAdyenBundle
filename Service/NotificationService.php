@@ -41,7 +41,7 @@ class NotificationService
         $output = print_r($item, true) . PHP_EOL;
 
         $notEvent = new NotificationEvent( $item );
-        $this->dispatcher->dispatch('adyen.notification.'.strtolower($item->eventCode), $notEvent);
+        $this->dispatcher->dispatch('bsp.adyen.notification.'.strtolower($item->eventCode), $notEvent);
 
         file_put_contents($this->logDirectory . '/adyen.log', $output, FILE_APPEND);
     }

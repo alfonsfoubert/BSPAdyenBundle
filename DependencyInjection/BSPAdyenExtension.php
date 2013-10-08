@@ -20,14 +20,14 @@ class BSPAdyenExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('adyen.platform', $config['platform']);
-        $container->setParameter('adyen.skin', $config['skin']);
-        $container->setParameter('adyen.merchant_account', $config['merchant_account']);
-        $container->setParameter('adyen.shared_secret', $config['shared_secret']);
-        $container->setParameter('adyen.currency', $config['currency']);
-        $container->setParameter('adyen.payment_methods', $config['payment_methods']);
-        $container->setParameter('adyen.webservice_username', $config['webservice_username']);
-        $container->setParameter('adyen.webservice_password', $config['webservice_password']);
+        $container->setParameter('bsp.adyen.platform', $config['platform']);
+        $container->setParameter('bsp.adyen.skin', $config['skin']);
+        $container->setParameter('bsp.adyen.merchant_account', $config['merchant_account']);
+        $container->setParameter('bsp.adyen.shared_secret', $config['shared_secret']);
+        $container->setParameter('bsp.adyen.currency', $config['currency']);
+        $container->setParameter('bsp.adyen.payment_methods', $config['payment_methods']);
+        $container->setParameter('bsp.adyen.webservice_username', $config['webservice_username']);
+        $container->setParameter('bsp.adyen.webservice_password', $config['webservice_password']);
     }
 
     public function getXsdValidationBasePath()
